@@ -1,45 +1,21 @@
-import React, { useCallback } from "react";
-import {
-  getConnectedEdges,
-  Handle,
-  useNodeId,
-  useStore,
-  NodeInternals,
-  HandleProps,
-  Position,
-  Edge,
-  Node,
-} from "reactflow";
-
-// Define the StoreState interface manually if it's not exported by reactflow
-interface StoreState {
-  nodeInternals: NodeInternals;
-  edges: Edge[];
-}
+import React, { useCallback, useMemo } from "react";
+import { getConnectedEdges, Handle, useNodeId, useStore } from "reactflow";
 
 const selector =
-  (nodeId: string, isConnectable = true, maxConnections = Infinity) =>
-  (s: StoreState) => {
+  (nodeId, isConnectable = true, maxConnections = Infinity) =>
+  (s) => {
+    // If the user props say this handle is not connectable, we don't need to
+    // bother checking anything else.
     if (!isConnectable) return false;
 
     const node = s.nodeInternals.get(nodeId);
-    if (!node) return false; // Ensure node is not undefined
-
     const connectedEdges = getConnectedEdges([node], s.edges);
+
     return connectedEdges.length < maxConnections;
   };
 
-interface CustomHandleProps extends HandleProps {
-  maxConnections: number;
-}
-
-const CustomHandle: React.FC<CustomHandleProps> = ({
-  maxConnections,
-  ...props
-}) => {
+const CustomHandle = ({ maxConnections, ...props }) => {
   const nodeId = useNodeId();
-  if (!nodeId) return null;
-
   const isConnectable = useStore(
     useCallback(selector(nodeId, props.isConnectable, maxConnections), [
       nodeId,
@@ -48,14 +24,10 @@ const CustomHandle: React.FC<CustomHandleProps> = ({
     ])
   );
 
-  return (
-    <Handle
-      {...props}
-      type="target"
-      isConnectable={isConnectable}
-      position={props.position || Position.Right}
-    />
-  );
+  // The `isConnectable` prop is a part of React Flow, all we need to do is give
+  // it the bool we calculated above and React Flow can handle the logic to disable
+  // it for us.
+  return <Handle {...props} type="target" isConnectable={isConnectable} />;
 };
 
 export default CustomHandle;
