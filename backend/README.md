@@ -1,30 +1,28 @@
-# Backend Documentation for the Data Reconciliation Project
+# Backend do Projeto de Reconciliação de Dados
 
-This document provides a comprehensive guide to the backend system for the data reconciliation project. The backend is a high-performance server built in Go, providing a robust REST API for data reconciliation using the method of Lagrange multipliers.
+Este diretório contém o código-fonte do servidor backend para o projeto de reconciliação de dados. O backend é construído em Go e fornece uma API REST para realizar a reconciliação de dados usando o método dos multiplicadores de Lagrange.
 
-## System Overview
+## Visão Geral
 
-The primary objective of this backend is to receive a set of measurements, their associated tolerances, and a series of linear constraints. It then adjusts the measurements in a way that satisfies the constraints while minimizing the overall adjustment, ensuring data consistency and accuracy.
+O objetivo principal deste backend é receber um conjunto de medições, suas tolerâncias e um conjunto de restrições lineares, e então ajustar as medições de forma que elas satisfaçam as restrições, minimizando o ajuste geral.
 
-## Architectural Design
+## Estrutura do Projeto
 
-The backend is structured to separate concerns, promoting maintainability and scalability.
+-   `main.go`: O ponto de entrada da aplicação. Ele inicializa o servidor HTTP, configura as rotas e lida com o graceful shutdown.
+-   `internal/`: Este diretório contém a lógica de negócios principal da aplicação.
+    -   `handlers/`: Contém os manipuladores de requisições HTTP para os endpoints da API.
+    -   `reconciliation/`: Contém a lógica principal para o processo de reconciliação de dados.
+    -   `middleware/`: Contém os middlewares para logging e tratamento de erros.
+-   `go.mod`, `go.sum`: Gerenciam as dependências do projeto.
+-   `CHANGELOG.md`: Um log de mudanças do backend.
 
--   `main.go`: This is the application's entry point. It is responsible for initializing the HTTP server, configuring routing, and managing graceful shutdowns.
--   `internal/`: This directory houses the core business logic of the application.
-    -   `handlers/`: Contains the HTTP request handlers for the API endpoints.
-    -   `reconciliation/`: Implements the core logic for the data reconciliation process.
-    -   `middleware/`: Provides middleware for logging and error handling.
--   `go.mod`, `go.sum`: These files manage the project's dependencies.
--   `CHANGELOG.md`: A log of changes to the backend.
-
-## API Endpoints
+## Endpoints da API
 
 ### 1. `POST /api/reconcile`
 
-This endpoint performs the data reconciliation.
+Este endpoint realiza a reconciliação dos dados.
 
-**Request Body (JSON):**
+**Corpo da Requisição (JSON):**
 
 ```json
 {
@@ -36,11 +34,11 @@ This endpoint performs the data reconciliation.
 }
 ```
 
--   `measurements`: An array of floating-point numbers representing the measured values.
--   `tolerances`: An array of floating-point numbers representing the percentage tolerances for each measurement.
--   `constraints`: A matrix (array of arrays) representing the linear constraint equations that the measurements must satisfy.
+-   `measurements`: Um array de números de ponto flutuante representando os valores medidos.
+-   `tolerances`: Um array de números de ponto flutuante representando as tolerâncias percentuais para cada medição.
+-   `constraints`: Uma matriz (array de arrays) representando as equações de restrição linear que as medições devem satisfazer.
 
-**Success Response (JSON):**
+**Resposta de Sucesso (JSON):**
 
 ```json
 {
@@ -48,13 +46,13 @@ This endpoint performs the data reconciliation.
 }
 ```
 
--   `reconciled`: An array of floating-point numbers with the adjusted values.
+-   `reconciled`: Um array de números de ponto flutuante com os valores ajustados.
 
 ### 2. `GET /api/current-values`
 
-This endpoint returns example values that are periodically updated on the server.
+Este endpoint retorna valores de exemplo que são atualizados periodicamente no servidor.
 
-**Success Response (JSON):**
+**Resposta de Sucesso (JSON):**
 
 ```json
 {
@@ -65,9 +63,9 @@ This endpoint returns example values that are periodically updated on the server
 
 ### 3. `GET /healthz`
 
-This endpoint is used to check the health of the server.
+Este endpoint é usado para verificar a saúde do servidor.
 
-**Success Response (JSON):**
+**Resposta de Sucesso (JSON):**
 
 ```json
 {
@@ -75,38 +73,38 @@ This endpoint is used to check the health of the server.
 }
 ```
 
-## Setup and Execution
+## Configuração e Execução
 
-### Prerequisites
+### Pré-requisitos
 
--   Go 1.18 or later
+-   Go 1.18 ou superior
 
-### Steps
+### Passos
 
-1.  **Clone the repository:**
+1.  **Clone o repositório:**
 
     ```bash
-    git clone https://github.com/your-username/radare-datarecon.git
+    git clone https://github.com/seu-usuario/radare-datarecon.git
     cd radare-datarecon/backend
     ```
 
-2.  **Install dependencies:**
+2.  **Instale as dependências:**
 
     ```bash
     go mod tidy
     ```
 
-3.  **Run the server:**
+3.  **Execute o servidor:**
 
     ```bash
     go run main.go
     ```
 
-    The server will start on port `8080` by default. You can set the `PORT` environment variable to use a different port.
+    O servidor será iniciado na porta `8080` por padrão. Você pode definir a variável de ambiente `PORT` para usar uma porta diferente.
 
-## Running Tests
+## Executando os Testes
 
-To run the backend's unit tests, navigate to the `backend` directory and execute the following command:
+Para executar os testes unitários do backend, navegue até o diretório `backend` e execute o seguinte comando:
 
 ```bash
 go test ./...
