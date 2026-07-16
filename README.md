@@ -1,57 +1,29 @@
-# RADARE
+# radare-datarecon
 
-RADARE is a powerful data reconciliation tool designed to help you compare and synchronize data from multiple sources. It provides a user-friendly web interface for visualizing data, identifying discrepancies, and reconciling them with ease.
+Este projeto é uma aplicação web para reconciliação de dados, consistindo em um frontend e um backend que se comunicam via API REST.
 
-## Key Features
+## Visão Geral do Projeto
 
-- **Data Visualization:** Visualize your datasets using interactive charts and graphs to quickly identify discrepancies.
-- **Data Reconciliation:** Compare and reconcile data from different sources with a simple, intuitive workflow.
-- **API-Driven:** A robust backend API allows for seamless integration with your existing data pipelines and systems.
-- **Easy to Use:** The web-based interface makes it easy for anyone to use, regardless of their technical expertise.
+O objetivo deste projeto é fornecer uma ferramenta para ajustar conjuntos de dados medidos para que eles satisfaçam um conjunto de restrições lineares, utilizando métodos estatísticos para minimizar os ajustes.
 
-This `README.md` provides an overview of the project, its architecture, and how to get started with the backend, frontend, and API client.
+## Estrutura do Repositório
 
-## Backend
+O repositório está organizado da seguinte forma:
 
-The backend is a Go-based API that provides the core functionality for data reconciliation. It exposes a set of endpoints for interacting with the data and performing reconciliation tasks.
+-   `webapp/`: Contém o código-fonte da aplicação frontend, responsável pela interface do usuário.
+-   `backend/`: Contém o servidor backend desenvolvido em Go, que implementa a lógica de reconciliação de dados.
+-   `apiclient/`: Pode conter clientes ou ferramentas para interagir com a API do backend.
+-   `LICENSE`: A licença do projeto.
+-   `README.md`: Este arquivo, fornecendo uma visão geral do projeto.
 
-### API Endpoints
+## Documentação Detalhada
 
-- `GET /api/current-values`: Retrieves the current values from the data sources.
-- `POST /api/reconcile`: Reconciles the data from the different sources.
-- `GET /healthz`: A health check endpoint to ensure the service is running.
+### Backend
 
-### Getting Started
+A documentação completa do backend, incluindo detalhes sobre a API, instruções de configuração e como executar os testes, está localizada em seu próprio diretório.
 
-To run the backend server, navigate to the `backend` directory and run the following command:
+**[➡️ Acesse a Documentação do Backend](./backend/README.md)**
 
-```bash
-cd backend
-go run main.go
-```
+### Frontend (webapp)
 
-The server will start on port `8080` by default. You can change the port by setting the `PORT` environment variable.
-
-## Frontend
-
-The frontend is a React-based web application that provides a user-friendly interface for visualizing and reconciling data. It uses `chart.js` and `reactflow` to create interactive charts and diagrams.
-
-### Getting Started
-
-To run the frontend application, navigate to the `webapp` directory and run the following commands:
-
-```bash
-cd webapp
-npm install
-npm run dev
-```
-
-This will start the development server, and you can access the application in your browser at `http://localhost:5173` (or another port if 5173 is in use).
-
-## API Client
-
-The `apiclient` directory contains a [Bruno](https://www.usebruno.com/) collection for interacting with the backend API. You can use Bruno to send requests to the API endpoints and view the responses. This is a great way to test the API and understand its functionality.
-
-## Contributing
-
-Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
+*(A documentação para o frontend será adicionada aqui em breve.)*
