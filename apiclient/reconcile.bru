@@ -11,72 +11,15 @@ post {
 }
 
 auth:bearer {
-  token: {{authToken}}
+  token: {{token}}
 }
 
 body:json {
-  // Corpo da requisição com os dados para reconciliação.
-  // Modifique estes valores para testar diferentes cenários.
   {
-    // "measurements": Vetor de medições iniciais que precisam ser ajustadas.
     "measurements": [161, 79, 80],
-  
-    // "tolerances": Vetor de tolerâncias (ou pesos) para cada medição.
     "tolerances": [0.05, 0.01, 0.01],
-    
-    // "constraints": Matriz de restrições lineares que os dados devem satisfazer.
-    // Ex: [1, -1, -1] representa a equação -> medição_1 - medição_2 - medição_3 = 0.
     "constraints": [
       [1, -1, -1]
     ]
   }
-}
-
-script:post-response {
-  // --- Script para validar a resposta da reconciliação ---
-  const response = res.getBody();
-  const status = res.getStatus();
-  
-  // Usa um switch para lidar com os diferentes códigos de status possíveis
-  switch (status) {
-    case 200:
-      console.log("Reconciliação de dados concluída com sucesso!");
-      // Exibe os campos esperados de uma resposta de sucesso
-      console.log("Valores Reconciliados:", response?.reconciled_values);
-      console.log("Correções Aplicadas:", response?.corrections);
-      console.log("Status de Consistência:", response?.consistency_status);
-      break;
-    case 400:
-      console.error("Erro: Requisição inválida (Bad Request). Verifique se os dados de entrada (medidas, tolerâncias, restrições) estão corretos.");
-      console.log("Detalhes do erro:", response?.error || response);
-      break;
-    case 401:
-      console.error("Erro: Não autorizado (Unauthorized). O token de autenticação é inválido ou expirou.");
-      console.log("Dica: Execute a requisição de 'login' novamente para obter um novo token.");
-      break;
-    default:
-      console.error(`Erro inesperado na requisição. Status: ${status}`);
-      console.log("Resposta do servidor:", response);
-      break;
-  }
-}
-
-docs {
-  # Reconciliação de Dados
-  
-  Este endpoint executa um algoritmo de reconciliação de dados a partir de um conjunto de medições, suas tolerâncias e as restrições que elas devem obedecer.
-  
-  **🔒 Autenticação Necessária:**
-  Esta é uma rota protegida. Você precisa executar a requisição de **login** primeiro para obter e salvar o `authToken`.
-  
-  O token é passado no cabeçalho `Authorization` como um Bearer Token. A variável `{{authToken}}` é preenchida automaticamente pelo script da requisição de `login`.
-  
-  
-  **Corpo da Requisição:**
-  - `measurements` (array[number], required): Os valores medidos que precisam ser ajustados.
-  - `tolerances` (array[number], required): A tolerância ou peso associado a cada medição. O tamanho deste array deve ser igual ao de `measurements`.
-  - `constraints` (array[array[number]], required): Uma matriz que define as equações lineares de balanço (ex: balanço de massa ou energia).
-  
-  **Resposta de Sucesso (200 OK):**
-  A resposta conterá os valores já ajustados (`reconciled_values`), as correções que foram aplicadas e o resultado de testes de consistência.
 }
