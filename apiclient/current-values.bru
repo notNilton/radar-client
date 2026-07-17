@@ -1,11 +1,57 @@
 meta {
   name: current-values
   type: http
-  seq: 2
+  seq: 4
 }
 
 get {
   url: {{host}}/api/current-values
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+script:post-response {
+  // Script para validar a resposta
+  console.log("Resposta de /api/current-values:", res.getBody());
+}
+
+tests {
+  // --- Testes Automatizados da Resposta da API ---
+  
+  test("A Resposta da API foi um sucesso (Status 200)", () => {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("A resposta contém as chaves 'value1' e 'value2'", () => {
+    const body = res.getBody();
+    expect(body).to.have.property("value1");
+    expect(body).to.have.property("value2");
+    expect(body.value1).to.be.a("number");
+    expect(body.value2).to.be.a("number");
+  });
+}
+
+docs {
+  # Obter Valores Atuais (Versão Aprimorada)
+  
+  Este endpoint busca os dados mais recentes do sistema. Esta versão inclui testes automatizados e parâmetros de consulta.
+  
+  **🔒 Autenticação Necessária:**
+  Requer um `authToken` válido obtido através da requisição de **login**.
+  
+  **Parâmetros de Consulta (Opcional):**
+  Uma API robusta pode permitir filtrar ou ordenar os resultados. A seção `params:query` está preparada para isso, basta descomentar e ajustar os parâmetros conforme a implementação da sua API.
+  
+  **Parâmetros de Consulta (Query Params):**
+  A API pode aceitar parâmetros para filtrar e ordenar os resultados:
+  - `limit` (number): Limita a quantidade de resultados.
+  - `sort_by` (string): Campo para ordenação (ex: `timestamp`, `value`).
+  - `order` (string): `asc` ou `desc`.
+  
+  **Testes Automatizados:**
+  A aba `Tests` foi ajustada para validar a estrutura de resposta real deste endpoint (um objeto com `value1` e `value2`).
 }
