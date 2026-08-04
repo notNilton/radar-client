@@ -1,41 +1,41 @@
 # 📋 Radare Platform Roadmap & TODOs
 
-Roadmap e planejamento de tarefas para a plataforma **Radare** (Reconciliação de Dados Industriais e Validação Estatística).
+Roadmap for **Radare** (Industrial Data Reconciliation & Statistical Validation Platform).
 
 ---
 
-## 🧮 1. Algoritmos de Reconciliação & Estatística Avançada (Fase 6 & 7)
-- [x] **Genetic Algorithm & M-Estimadores Robustos**
-  - Implementados em `internal/reconciliation/` (Huber, Fair, Solver Genético).
-- [ ] **Exposição das APIS de Solvers Avançados**
-  - Criar endpoints REST para permitir escolha entre o Solver de Lagrange e o Solver Genético / M-Estimadores.
-- [ ] **Persistência de Métricas de Drift (CUSUM / EWMA)**
-  - Salvar histórico de detecção de drift no LogDB e notificar desvios em tempo real.
-- [ ] **Data Fuzzing & Simulação Monte Carlo (ISO GUM)**
-  - Motor de injeção de erros sintéticos e cálculo de intervalo de confiança para validação empírica.
+## 🧮 1. Reconciliation Algorithms & Advanced Statistics
+- [x] **Genetic Algorithm & Robust M-Estimators**
+  - Implemented in  (Huber, Fair, Genetic Solver).
+- [ ] **Expose Advanced Solvers REST APIs**
+  - Add API endpoints allowing users to select between Lagrange Solver and Genetic / M-Estimator Solvers.
+- [ ] **Drift Metrics Persistence (CUSUM / EWMA)**
+  - Store drift detection history in LogDB and issue real-time alerts upon deviation.
+- [ ] **Data Fuzzing & Monte Carlo Simulation (ISO GUM)**
+  - Synthetic noise injection engine and confidence interval calculation for empirical validation.
 
 ---
 
-## ⚙️ 2. Backend & Ingestão de Dados
-- [ ] **Pipeline de Ingestão MQTT Live**
-  - Consumir medições de tags industriais ao vivo via broker em produção.
-- [ ] **Integração Time-Series com InfluxDB**
-  - Persistir histórico de séries temporais reconciliadas.
-- [ ] **Exportador de Métricas Prometheus**
-  - Endpoint `/metrics` nativo para observabilidade do sistema e saúde dos solvers.
+## ⚙️ 2. Backend & Data Ingestion
+- [ ] **Live MQTT Ingestion Pipeline**
+  - Consume live industrial tag readings via production broker.
+- [ ] **InfluxDB Time-Series Integration**
+  - Persist reconciled time-series historical data.
+- [ ] **Prometheus Metrics Exporter**
+  - Native  endpoint for system health and solver observability.
 
 ---
 
-## 💻 3. Webapp & Interface (React / Vite)
-- [ ] **Visualização de Diffs de Topologia de Grafo**
-  - Interface para comparar alterações entre versões de modelos da fábrica.
-- [ ] **Exportação de Relatórios Executive (CSV / Excel / PDF)**
-  - Download de balanços de massa e energia reconciliados.
+## 💻 3. Webapp & User Interface (React / Vite)
+- [ ] **Graph Topology Diff Viewer**
+  - UI interface to compare changes between plant process model versions.
+- [ ] **Executive Report Exporting (CSV / Excel / PDF)**
+  - Download reconciled mass and energy balance reports.
 
 ---
 
-## 🗄️ 4. Banco de Dados & Infraestrutura
-- [ ] **Particionamento Mensal no PostgreSQL (Partition Pruning)**
-  - Estratégia de particionamento da tabela de histórico de reconciliações.
-- [ ] **Pipelines de CI/CD via GitHub Actions**
-  - Automação de testes em Go, Vitest e validação de builds do Docker.
+## 🗄️ 4. Database & Infrastructure
+- [ ] **Monthly PostgreSQL Table Partitioning (Partition Pruning)**
+  - Table partitioning strategy for historical reconciliation logs.
+- [ ] **GitHub Actions CI/CD Pipelines**
+  - Automated testing for Go, Vitest, and Docker build validations.
