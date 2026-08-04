@@ -68,9 +68,8 @@ make nuke-and-pave  # Reset database volumes and reapply migrations
 | PostgreSQL Logs | Database | `5433` | localhost:5433/radare_logs |
 | Redis | Cache | `6379` | localhost:6379 |
 
-
 ## Documentation
 
 - [📋 Roadmap & TODOs](docs/TODO.md) - Planned features and project roadmap
 - [📐 Architecture](docs/ARCHITECTURE.md) - System architecture and components
-- [📄 License](LICENSE) - MIT License
+- [📄 License](LICENSE) - GNU General Public License v3.0
