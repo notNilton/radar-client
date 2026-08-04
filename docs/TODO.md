@@ -1,47 +1,51 @@
-# 📋 Radare Platform Roadmap & TODOs
+# 📋 Radare Platform - Master Roadmap & TODOs
 
-Roadmap e lista de tarefas (TODOs) da plataforma de reconciliação de dados industriais **Radare**.
-
----
-
-## 🧮 1. Algoritmos de Reconciliação & Estatística
-- [ ] **Otimização por Multiplicadores de Lagrange em C++/Go**
-  - Refinar o cálculo matricial de reconciliação de balanço de massa e energia para grandes redes industriais.
-- [ ] **Detecção Automática de Erros Grosseiros (Gross Error Detection)**
-  - Implementar testes de hipóteses estatísticas (Chi-Square e GLR) para identificação de sensores descalibrados.
+Visão geral da organização e acompanhamento de tarefas da plataforma **Radare** (Reconciliação de Dados Industriais & Validação Estatística).
 
 ---
 
-## ⚙️ 2. Backend & Ingestão de Dados
-- [ ] **Pipeline de Ingestão MQTT**
-  - Consumir medições de tags industriais em tempo real via broker MQTT.
-- [ ] **Integração com InfluxDB**
-  - Persistir séries temporais de resultados reconciliados no InfluxDB.
-- [ ] **Reconciliação Agendada (Scheduled Reconciliation)**
-  - Executar o solver de reconciliação automaticamente em intervalos de tempo configuráveis.
-- [ ] **Notificações via Webhook**
-  - Disparar alertas via Webhook em caso de violação de balanço de massa/energia.
-- [ ] **API de Busca e Filtro em Logs de Auditoria**
-  - Implementar busca e filtragem avançada nos logs de histórico do sistema.
+## 🏗️ Estrutura de Organização do Projeto
+
+A organização de tarefas do **Radare** é dividida por **Fases de Maturidade** (localizadas em `docs/planning/`):
+
+- **Fases 1 a 5 (Concluídas ✅)**: MVP, Arquitetura Go + React, Persistência de Grafos, WebSockets, Dual Database (PostgreSQL + LogDB), Workers MQTT/InfluxDB, RBAC e PWA.
+- **Fase 6 (Em Progresso ⚡)**: Otimização Heurística, Algoritmo Genético, Filtros CUSUM/EWMA e M-Estimadores Robustos (Huber/Fair).
+- **Fase 7 (Planejada 🛡️)**: Data Fuzzing, Simulações Monte Carlo (ISO GUM) e Benchmarking Estatístico para Publicação.
 
 ---
 
-## 💻 3. Webapp & Frontend (React / Vite)
-- [ ] **Atualizações de Gráficos em Tempo Real**
-  - Integração via WebSocket para atualizar nós e fluxos da rede em tempo real.
-- [ ] **Visualizador de Diffs de Versão de Workspace**
-  - Comparar alterações entre versões de modelos de redes industriais.
-- [ ] **Exportação de Resultados**
-  - Permitir download dos dados reconciliados nos formatos CSV e Excel.
-- [ ] **Layout Mobile Responsive**
-  - Otimizar a interface para dispositivos móveis e tablets.
+## ⚡ Fase 6: Otimização Heurística & Algoritmos Avançados (Atual)
+
+- [x] **Genetic Algorithm Solver (Go)**
+  - Implementado em `internal/reconciliation/heuristics/` com harness comparativo contra o solver de Lagrange.
+- [x] **Constraint Programming & Penalidades**
+  - Resolução de desigualdades físicas via penalidade no solver genético.
+- [x] **Detecção de Drift com CUSUM/EWMA**
+  - Filtros CUSUM/EWMA implementados para detecção de desvio gradual em sensores.
+- [x] **Baseline Robusto com M-Estimadores**
+  - Algoritmo IRLS com estimadores robustos de Huber e Fair (`internal/reconciliation/robust/`).
+- [ ] **Persistência & Rotas de API da Fase 6**
+  - Expor solvers heurísticos na API REST e persistir os resultados de `drift_score` e limites `min`/`max` no banco de dados.
+- [ ] **Conexão com Grafo de Workspace**
+  - Conectar a sugestão de design ótimo de rede de sensores diretamente ao canvas do Workspace.
 
 ---
 
-## 🗄️ 4. Banco de Dados & Infraestrutura
-- [ ] **Estratégia de Particionamento (Partition Pruning)**
-  - Implementar partição no PostgreSQL para histórico de reconciliações massivas.
-- [ ] **Política de Retenção do LogDB**
-  - Configurar limpeza e expiração automática de logs antigos.
-- [ ] **Backups Automatizados & Monitoramento**
-  - Script de backup automático do PostgreSQL em produção e endpoints de health check externos.
+## 🛡️ Fase 7: Stress Testing, Data Fuzzing & Validação Empírica
+
+- [ ] **Engine de Data Fuzzing**
+  - Gerador sintético de ruídos, congelamento de sinal (frozen sensor), bias e desvios para validação de ground-truth.
+- [ ] **Simulações de Monte Carlo (ISO GUM)**
+  - Cálculo de intervalos de confiança em reconciliações usando incertezas de medição expandidas.
+- [ ] **Sanity Checker Físico**
+  - Validador termodinâmico para barrar soluções com valores fisicamente impossíveis (ex: massa negativa).
+- [ ] **Framework de Benchmarking Científico**
+  - Comparativo automático de precisão/recall entre Teste Global ($\chi^2$), GLR e modelo de ML.
+
+---
+
+## ⚙️ Tarefas Operacionais & Engenharia Complementar
+
+- [ ] **Pipeline de Ingestão MQTT Live**: Consumir tags ao vivo via broker em produção.
+- [ ] **Estratégia de Particionamento (Partition Pruning)**: Particionamento mensal de tabelas de histórico no PostgreSQL.
+- [ ] **Exportador de Métricas Prometheus**: Rota `/metrics` nativa para observabilidade da saúde do solver.
